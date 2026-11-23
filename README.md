@@ -14,6 +14,12 @@
 
 ---
 
+## Screenshot
+
+<p align="center">
+  <img src="assets/popup-screenshot.png" alt="FB Topic Mute Popup Interface" width="320" />
+</p>
+
 ## Features
 
 - **Arabic & English Normalization:**
@@ -40,24 +46,33 @@
 
 ## Installation (Load Unpacked)
 
-1. Download or clone this repository:
-   ```bash
-   git clone https://github.com/evile92/FB-Topic-Mute.git
-   ```
+1. **Download the extension** using either option:
+   - **Direct Download (Recommended for everyone):** Click the green **Code** button at the top of this page → **Download ZIP**, then extract the ZIP archive.
+   - **Using Git:**
+     ```bash
+     git clone https://github.com/evile92/FB-Topic-Mute.git
+     ```
 2. Open your browser's Extensions page:
    - Chrome: `chrome://extensions`
    - Opera: `opera://extensions`
    - Edge: `edge://extensions`
    - Brave: `brave://extensions`
 3. Enable **Developer mode** (top-right corner).
-4. Click **Load unpacked** and select the `FB-Topic-Mute` folder.
+4. Click **Load unpacked** and select the extracted folder (the one containing `manifest.json`).
 5. Open or refresh `facebook.com`, click the **FB Topic Mute** toolbar icon, and add your muted keywords.
+
+## Known Limitations
+
+- **Truncated text behind "See more":** Facebook does not load truncated post text into the page until you click **See more**; once expanded, the extension immediately scans and mutes the post if it matches.
+- **Text embedded inside videos or images without alt text:** The extension cannot read text burned directly into video frames or images that have no `alt` description from Facebook.
+- **Facebook DOM updates:** Facebook periodically changes its internal page structure. All selectors are centralized in `content/selectors.js` so updates can be applied cleanly in one place.
 
 ## Project Structure
 
 ```text
 FB-Topic-Mute/
 ├── manifest.json            # Manifest V3 config (least-privilege permissions)
+├── LICENSE                  # MIT License
 ├── utils/
 │   └── textNormalizer.js    # Arabic/English normalization & Unicode matcher
 ├── content/
@@ -68,8 +83,13 @@ FB-Topic-Mute/
 │   ├── popup.html           # Dark-mode popup interface (LTR chrome + auto RTL tags)
 │   ├── popup.css            # Popup styling
 │   └── popup.js             # Keyword management, settings, stats & JSON backup
-└── icons/                   # Extension icons (16, 48, 128px PNG) & repository logo.png
+├── icons/                   # Extension icons (16, 48, 128px PNG) & logo.png
+└── assets/                  # README screenshots
 ```
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
 
 ---
 
@@ -102,21 +122,26 @@ FB-Topic-Mute/
 
 ### طريقة التثبيت
 
-1. حمّل المشروع أو انسخه عبر Git:
-   <div dir="ltr" align="left">
-
-   ```bash
-   git clone https://github.com/evile92/FB-Topic-Mute.git
-   ```
-
-   </div>
+1. **حمّل الإضافة** بإحدى الطريقتين:
+   - **التحميل المباشر (موصى به للجميع):** اضغط على زر **Code** الأخضر في أعلى الصفحة ← اختر **Download ZIP**، ثم فك الضغط عن الملف.
+   - **عبر Git (للمطورين):** نفّذ الأمر `git clone https://github.com/evile92/FB-Topic-Mute.git`
 2. افتح صفحة الإضافات في متصفحك:
    - في Chrome: `chrome://extensions`
    - في Opera: `opera://extensions`
    - في Edge: `edge://extensions`
    - في Brave: `brave://extensions`
 3. فعّل خيار **وضع المطور (Developer mode)**.
-4. اضغط على **تحميل إضافة غير مضغوطة (Load unpacked)** واختر مجلد `FB-Topic-Mute`.
+4. اضغط على **تحميل إضافة غير مضغوطة (Load unpacked)** واختر المجلد بعد فك الضغط (المجلد الذي يحتوي على ملف `manifest.json`).
 5. افتح فيسبوك أو حدّث الصفحة، ثم اضغط على أيقونة **FB Topic Mute** وأضف الكلمات التي تريد كتمها (يمكنك إدخال أكثر من كلمة بفواصل `,` أو `،`).
+
+### القيود المعروفة
+
+- **النص المخفي خلف زر "عرض المزيد" (See more):** لا يقوم فيسبوك بتحميل باقي النص داخل الصفحة إلا بعد الضغط على الزر؛ وبمجرد الضغط على "عرض المزيد" تلتقط الإضافة النص تلقائياً وتخفي المنشور إذا احتوى على كلمة محظورة.
+- **النصوص المدمجة داخل الفيديو أو الصور بدون وصف بديل:** لا يمكن قراءة النصوص المرسومة مباشرة داخل الفيديو أو الصور التي لا يوفّر لها فيسبوك نصاً بديلاً (`alt`).
+- **تحديثات فيسبوك الدورية:** قد يغيّر فيسبوك بنية الصفحة من وقت لآخر، لذلك تم تجميع كل محددات العناصر في ملف واحد (`content/selectors.js`) لتسهيل تحديثها بسرعة عند الحاجة.
+
+### الرخصة
+
+هذا المشروع مرخص بموجب رخصة [MIT License](LICENSE).
 
 </div>
