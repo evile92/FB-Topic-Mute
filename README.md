@@ -1,8 +1,16 @@
-# FB Topic Mute
+<p align="center">
+  <img src="icons/logo.png" alt="FB Topic Mute Logo" width="240" />
+</p>
 
-A lightweight, zero-dependency Manifest V3 browser extension for Chromium browsers (Chrome, Opera, Edge, Brave) that hides Facebook feed posts containing your muted words or phrases — with full Arabic and English normalization support.
+<h1 align="center">FB Topic Mute</h1>
 
-[العربية (Arabic Guide) ↓](#العربية---fb-topic-mute)
+<p align="center">
+  A lightweight, zero-dependency Manifest V3 browser extension for Chromium browsers (Chrome, Opera, Edge, Brave) that hides Facebook feed posts containing your muted words or phrases — with full Arabic and English normalization support.
+</p>
+
+<p align="center">
+  <a href="#العربية---fb-topic-mute">العربية (Arabic Guide) ↓</a>
+</p>
 
 ---
 
@@ -60,7 +68,7 @@ FB-Topic-Mute/
 │   ├── popup.html           # Dark-mode popup interface (LTR chrome + auto RTL tags)
 │   ├── popup.css            # Popup styling
 │   └── popup.js             # Keyword management, settings, stats & JSON backup
-└── icons/                   # Extension icons (16, 48, 128px PNG + SVG)
+└── icons/                   # Extension icons (16, 48, 128px PNG) & repository logo.png
 ```
 
 ---

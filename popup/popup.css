@@ -74,18 +74,16 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius-md);
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  color: var(--accent);
+  width: 34px;
+  height: 34px;
   flex-shrink: 0;
 }
 
-.brand-icon svg {
-  width: 17px;
-  height: 17px;
+.brand-logo {
+  width: 34px;
+  height: 34px;
+  display: block;
+  object-fit: contain;
 }
 
 .brand-text {
