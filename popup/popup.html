@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FB Topic Mute</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app" id="appRoot">
+    <!-- Header + Master Switch -->
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">FB Topic Mute</h1>
+          <div class="session-stat" id="sessionStat">
+            <span class="stat-dot" id="statDot" aria-hidden="true"></span>
+            <span class="stat-text" id="statText">Checking tab…</span>
+          </div>
+        </div>
+      </div>
+
+      <label class="switch" title="Enable or disable FB Topic Mute">
+        <input type="checkbox" id="masterToggle" aria-label="Enable FB Topic Mute">
+        <span class="switch-track"></span>
+      </label>
+    </header>
+
+    <!-- Keyword Entry -->
+    <section class="card" aria-label="Add muted keywords">
+      <form class="add-form" id="addKeywordForm" novalidate>
+        <div class="input-group">
+          <input
+            type="text"
+            id="keywordInput"
+            class="text-input"
+            dir="auto"
+            placeholder="Add word, phrase, or comma-separated list…"
+            autocomplete="off"
+            spellcheck="false"
+            aria-label="Muted keyword or comma-separated phrases"
+          >
+          <button type="submit" class="btn btn-primary" id="addKeywordBtn">Add</button>
+        </div>
+      </form>
+      <div class="feedback-bar" id="feedbackBar" role="status" aria-live="polite" hidden></div>
+    </section>
+
+    <!-- Muted Keywords List -->
+    <section class="card keywords-card" aria-label="Muted keywords list">
+      <div class="section-header">
+        <div class="section-title-group">
+          <h2 class="section-title">Muted Keywords</h2>
+          <span class="count-pill" id="keywordCount">0</span>
+        </div>
+        <button type="button" class="btn-link-danger" id="clearAllBtn" hidden>Clear All</button>
+      </div>
+
+      <!-- Inline Clear-All Confirmation (No window.confirm) -->
+      <div class="confirm-strip" id="clearConfirmStrip" hidden>
+        <span class="confirm-text" id="clearConfirmText">Clear all keywords?</span>
+        <div class="confirm-actions">
+          <button type="button" class="btn btn-ghost btn-xs" id="cancelClearBtn">Cancel</button>
+          <button type="button" class="btn btn-danger btn-xs" id="confirmClearBtn">Clear</button>
+        </div>
+      </div>
+
+      <div class="filter-wrap" id="filterWrap" hidden>
+        <svg class="filter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input
+          type="search"
+          id="filterInput"
+          class="filter-input"
+          dir="auto"
+          placeholder="Filter muted words…"
+          autocomplete="off"
+          aria-label="Filter muted keywords"
+        >
+      </div>
+
+      <ul class="keyword-list" id="keywordList" aria-label="Active muted keywords"></ul>
+      <div class="empty-state" id="emptyState" hidden>
+        <p class="empty-title" id="emptyTitle">No muted keywords yet</p>
+        <p class="empty-sub" id="emptySub">Add Arabic or English words above to filter your Facebook feed.</p>
+      </div>
+    </section>
+
+    <!-- Settings Panel -->
+    <section class="card settings-card" aria-label="Filter settings">
+      <h2 class="section-title settings-heading">Settings</h2>
+
+      <div class="setting-row">
+        <div class="setting-label-wrap">
+          <span class="setting-label">Hide Mode</span>
+        </div>
+        <div class="segmented" role="group" aria-label="Hide mode">
+          <button type="button" class="seg-btn" id="modeCollapseBtn" data-hide-mode="collapse">Collapse Bar</button>
+          <button type="button" class="seg-btn" id="modeHideBtn" data-hide-mode="hide">Complete Hide</button>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="setting-label-wrap">
+          <span class="setting-label">Match Type</span>
+        </div>
+        <div class="segmented" role="group" aria-label="Match type">
+          <button type="button" class="seg-btn" id="matchPartialBtn" data-match-type="partial">Partial</button>
+          <button type="button" class="seg-btn" id="matchWholeBtn" data-match-type="whole-word">Whole-Word</button>
+        </div>
+      </div>
+
+      <div class="setting-row setting-row-toggle">
+        <div class="setting-label-wrap">
+          <span class="setting-label">Scan Image Alt Text</span>
+          <span class="setting-hint">Matches photo descriptions &amp; OCR text</span>
+        </div>
+        <label class="switch switch-sm">
+          <input type="checkbox" id="scanAltToggle" aria-label="Scan image alt text">
+          <span class="switch-track"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- Backup Footer -->
+    <footer class="footer">
+      <button type="button" class="btn btn-secondary btn-sm" id="exportBtn">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Export JSON
+      </button>
+      <button type="button" class="btn btn-secondary btn-sm" id="importBtn">
+        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+        Import JSON
+      </button>
+      <input type="file" id="importFileInput" accept=".json,application/json" hidden>
+    </footer>
+  </div>
+
+  <script src="../utils/textNormalizer.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

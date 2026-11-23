@@ -1,0 +1,163 @@
+/* ==========================================================================
+   FB Topic Mute — Content Script Styles
+   React Virtual DOM Safe: Hides posts strictly via data attributes & CSS.
+   Never deletes or restructures React-owned nodes.
+   ========================================================================== */
+
+/* Complete Hide Mode */
+[data-fb-mute-state="hidden"] {
+  display: none !important;
+}
+
+/* Collapse Mode: hide all React-managed children except our slim toggle bar */
+[data-fb-mute-state="collapsed"] > :not([data-fb-mute-bar="true"]) {
+  display: none !important;
+}
+
+/* Slim Collapse / Reveal Bar (~36px height) */
+.fb-mute-bar[data-fb-mute-bar="true"] {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-height: 36px !important;
+  padding: 6px 12px !important;
+  margin: 0 0 8px 0 !important;
+  border-radius: 8px !important;
+  background-color: var(--card-background, #242526) !important;
+  border: 1px solid var(--divider, rgba(255, 255, 255, 0.12)) !important;
+  color: var(--secondary-text, #b0b3b8) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  font-size: 12.5px !important;
+  line-height: 1.3 !important;
+  direction: ltr !important;
+  text-align: left !important;
+  z-index: 1 !important;
+}
+
+/* Light-mode fallback when Facebook's CSS variables are unavailable */
+@media (prefers-color-scheme: light) {
+  .fb-mute-bar[data-fb-mute-bar="true"] {
+    background-color: var(--card-background, #ffffff) !important;
+    border-color: var(--divider, rgba(0, 0, 0, 0.12)) !important;
+    color: var(--secondary-text, #65676b) !important;
+  }
+}
+
+.fb-mute-bar-info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+  overflow: hidden !important;
+}
+
+.fb-mute-bar-icon {
+  flex: 0 0 auto !important;
+  width: 14px !important;
+  height: 14px !important;
+  color: var(--accent, #3b82f6) !important;
+  opacity: 0.9 !important;
+}
+
+.fb-mute-bar-label {
+  flex: 0 0 auto !important;
+  font-weight: 500 !important;
+  white-space: nowrap !important;
+}
+
+.fb-mute-bar-keyword {
+  display: inline-block !important;
+  max-width: 240px !important;
+  padding: 2px 8px !important;
+  border-radius: 999px !important;
+  background-color: var(--secondary-button-background, rgba(59, 130, 246, 0.14)) !important;
+  color: var(--primary-text, #e4e6eb) !important;
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+@media (prefers-color-scheme: light) {
+  .fb-mute-bar-keyword {
+    color: var(--primary-text, #050505) !important;
+  }
+}
+
+.fb-mute-bar-btn {
+  flex: 0 0 auto !important;
+  appearance: none !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 24px !important;
+  padding: 0 10px !important;
+  border-radius: 6px !important;
+  border: 1px solid var(--divider, rgba(255, 255, 255, 0.14)) !important;
+  background-color: var(--secondary-button-background, rgba(255, 255, 255, 0.08)) !important;
+  color: var(--primary-text, #e4e6eb) !important;
+  font-family: inherit !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  line-height: 1 !important;
+  cursor: pointer !important;
+  transition: opacity 150ms ease, background-color 150ms ease !important;
+}
+
+@media (prefers-color-scheme: light) {
+  .fb-mute-bar-btn {
+    border-color: var(--divider, rgba(0, 0, 0, 0.14)) !important;
+    color: var(--primary-text, #050505) !important;
+  }
+}
+
+.fb-mute-bar-btn:hover {
+  opacity: 0.85 !important;
+}
+
+.fb-mute-bar-btn:focus-visible {
+  outline: 2px solid #3b82f6 !important;
+  outline-offset: 1px !important;
+}
+
+/* Compact vertical layout when a single Reel card inside a horizontal Reels shelf is collapsed */
+[data-fb-mute-kind="reel-card"][data-fb-mute-state="collapsed"] > .fb-mute-bar[data-fb-mute-bar="true"] {
+  flex-direction: column !important;
+  justify-content: center !important;
+  text-align: center !important;
+  min-height: 110px !important;
+  padding: 12px 10px !important;
+  margin: 0 !important;
+  gap: 8px !important;
+}
+
+[data-fb-mute-kind="reel-card"][data-fb-mute-state="collapsed"] .fb-mute-bar-info {
+  flex-direction: column !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  width: 100% !important;
+}
+
+[data-fb-mute-kind="reel-card"][data-fb-mute-state="collapsed"] .fb-mute-bar-keyword {
+  max-width: 140px !important;
+}
+
+/* When revealed on a Reel card, keep bar sleek at the top */
+[data-fb-mute-kind="reel-card"][data-fb-mute-state="revealed"] > .fb-mute-bar[data-fb-mute-bar="true"] {
+  padding: 5px 8px !important;
+  margin-bottom: 4px !important;
+  gap: 6px !important;
+}
+
+[data-fb-mute-kind="reel-card"][data-fb-mute-state="revealed"] .fb-mute-bar-label {
+  display: none !important;
+}
+
+[data-fb-mute-kind="reel-card"][data-fb-mute-state="revealed"] .fb-mute-bar-keyword {
+  max-width: 85px !important;
+}
